@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: acs-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: acs-demo
+  template:
+    metadata:
+      labels:
+        app: acs-demo
+    spec:
+      containers:
+        - name: acs-demo
+          image: registry.access.redhat.com/ubi9/ubi-minimal:9.8
+          command:
+            - sleep
+            - "3600"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi

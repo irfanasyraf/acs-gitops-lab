@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: acs-demo
+  namespace: acs-lab
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: acs-demo
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: acs-demo
+  namespace: acs-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: acs-demo
+  template:
+    metadata:
+      labels:
+        app: acs-demo
+    spec:
+      containers:
+      - command:
+        - sleep
+        - "3600"
+        image: registry.access.redhat.com/ubi9/ubi-minimal:9.8
+        name: acs-demo
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64Mi
+          requests:
+            cpu: 50m
+            memory: 32Mi

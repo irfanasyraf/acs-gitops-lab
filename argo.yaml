@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: acs-gitops-lab
+  namespace: openshift-gitops
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/irfanasyraf/acs-gitops-lab.git
+    targetRevision: main
+    path: overlays/sit
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: acs-lab
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
